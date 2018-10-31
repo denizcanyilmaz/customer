@@ -16,10 +16,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping(value = "/")
-    public String index(){
-        return "index";
-    }
+
 
     @GetMapping(value = "/customers")
     public List<Customer>  customers(){
