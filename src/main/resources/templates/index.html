@@ -34,8 +34,6 @@
 
         }
 
-
-
         .top-bar ul {
             margin-bottom: 0;
 
@@ -111,7 +109,7 @@
         <div class="container">
             <div class="row d-flex align-items-center">
                 <div class="col-md-6 d-md-block d-none" style= "margin-top: 2%;">
-                <p>You can manage your customers with this page</p>
+                <p>Manage your customers with this page</p>
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex justify-content-md-end justify-content-between">
@@ -153,60 +151,87 @@
 
                             <p>
                                 <label for="name">Name</label>
-                                <input
-                                        id="name"
-                                        v-model="name"
-                                        type="text"
-                                        name="name"
-                                >
+                                <input id="name" v-model="name" type="text" name="name">
+
                             </p>
 
                             <p>
                                 <label for="surname">Surname</label>
-                                <input
-                                        id="surname"
-                                        v-model="surname"
-                                        type="text"
-                                        name="surname"
-                                >
+                                <input id="surname" v-model="surname" type="text" name="surname">
+
                             </p>
 
                             <p>
                                 <label for="identityNumber">Identity Number</label>
                                 <input
-                                        id="identityNumber"
-                                        v-model="identityNumber"
-                                        type="text"
-                                        name="identityNumber"
-                                >
+                                        id="identityNumber" v-model="identityNumber" type="text" name="identityNumber">
+
                             </p>
                             <p>
                                 <label for="phoneNumber">Phone Number</label>
-                                <input
-                                        id="phoneNumber"
-                                        v-model="phoneNumber"
-                                        type="text"
-                                        name="phoneNumber"
-                                >
+                                <input id="phoneNumber" v-model="phoneNumber" type="text" name="phoneNumber">
+
                             </p>
                             <p>
                                 <label for="job">Job</label>
-                                <input
-                                        id="job"
-                                        v-model="job"
-                                        type="text"
-                                        name="job"
-                                >
+                                <input id="job" v-model="job" type="text" name="job">
+
                             </p>
-
-
                             <p>
-
                                 <input class="u-full-width button-primary" id="btn-add-customer" type="submit" v-on:click="doComment" value="Submit" />
 
                             </p>
 
                         </form>
+                    </div>
+                </div>
+                <div id="updateCustomerModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form id="updateForm"  method="post">
+
+                            <p v-if="errors.length">
+                                <b>Please correct the following error(s):</b>
+                            <ul>
+                                <li v-for="error in errors">{{ error }}</li>
+                            </ul>
+                            </p>
+
+                            <p>
+                                <label for="name">Name : </label>
+                                <input id="nameU"  v-model="nameU" type="text" name="nameU" >
+
+                            </p>
+
+                            <p>
+                                <label for="surname">Surname</label>
+                                <input id="surnameU" v-model="surnameU" type="text" name="surnameU">
+
+                            </p>
+
+                            <p>
+                                <label for="identityNumber">Identity Number</label>
+                                <input id="identityNumberU" v-model="identityNumberU" type="text" name="identityNumberU">
+
+                            </p>
+                            <p>
+                                <label for="phoneNumber">Phone Number</label>
+                                <input id="phoneNumberU" v-model="phoneNumberU" type="text" name="phoneNumberU" >
+
+                            </p>
+                            <p>
+                                <label for="job">Job</label>
+                                <input id="jobU" v-model="jobU" type="text" name="jobU" >
+
+                            </p>
+                            <p>
+
+
+                            </p>
+
+                        </form>
+                        <button id="updCustomerButton" v-on:click="updateCustomerA()" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Update</button>
                     </div>
                 </div>
 
@@ -228,14 +253,20 @@
                     <td> {{customer.phoneNumber}}</td>
                     <td> {{customer.job}}</td>
                     <td class="text-center">
-                        <a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        <button v-on:click="deleteComment(customer)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button>
+                        <button v-on:click="openUpdateModal(customer)" class="btn btn-primary btn-xs" style="font-size: x-small;">
+                            <b>+</b> Edit
+                        </button>
+                        <button id="deleteCustomerButton" v-on:click="deleteComment(customer)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button>
+
+
                     </td>
 
 
                 </tr>
 
             </table>
+
+
         </div>
     </div>
 </div>
@@ -259,6 +290,7 @@
             surname: null,
             identityNumber: null,
             phoneNumber: null,
+            updateCustomer : null,
             job: null
             },
         mounted(){
@@ -308,36 +340,89 @@
                 }.bind(this));
             },
 
+            openUpdateModal(customer){
+
+                // Get the modal
+                axios.get("/customer/" + customer.id).then(function(response){
+                    this.updateCustomer = response.data;
+                }.bind(this));
+                var modalUpdate = document.getElementById('updateCustomerModal');
+                document.getElementById('nameU').value = ""+this.updateCustomer.name;
+                document.getElementById('surnameU').value = ""+this.updateCustomer.surname;
+                document.getElementById('identityNumberU').value = ""+this.updateCustomer.identityNumber;
+                document.getElementById('phoneNumberU').value = ""+this.updateCustomer.phoneNumber;
+                document.getElementById('jobU').value = "" +this.updateCustomer.job;
+                modalUpdate.style.display = "block";
+
+
+
+            },
+
+            updateCustomerA(){
+                alert("" + this.updateCustomer.id);
+                axios({
+                    method:'patch',
+                    url: "/updatecustomer",
+                    data:{
+
+                        name:this.nameU,
+                        surname:this.surnameU,
+                        identityNumber: this.identityNumberU,
+                        phoneNumber: this.phoneNumberU,
+                        job: this.jobU,
+                        id: this.updateCustomer.id
+
+
+                    }
+                }).then(function(response){
+                    var modal = document.getElementById('updateCustomerModal');
+                    modal.style.display = "none";
+                    location.reload();
+                }.bind(this));
+            },
+
 
         }
 
 
     });
     // Get the modal
-    var modal = document.getElementById('addCustomerModal');
+    var modalAdd = document.getElementById('addCustomerModal');
+
+    // Get the modal
+    var modalUpdate = document.getElementById('updateCustomerModal');
+
 
     // Get the button that opens the modal
-    var btn = document.getElementById("addCustomerButton");
+    var btnAdd = document.getElementById("addCustomerButton");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span1 = document.getElementsByClassName("close")[0];
+    var span2 = document.getElementsByClassName("close")[1];
 
     // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
+    btnAdd.onclick = function() {
+        modalAdd.style.display = "block";
     }
+
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
+    span1.onclick = function() {
+        modalAdd.style.display = "none";
 
     }
+    // When the user clicks on <span> (x), close the modal
+    span2.onclick = function() {
+        modalUpdate.style.display = "none";
 
+    }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == modalAdd || event.target == modalUpdate) {
+            modalAdd.style.display = "none";
+            modalUpdate.style.display = "none";
+
         }
     }
 
