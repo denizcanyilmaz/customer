@@ -359,17 +359,18 @@
             },
 
             updateCustomerA(){
-                alert("" + this.updateCustomer.id);
+
+
                 axios({
                     method:'patch',
                     url: "/updatecustomer",
                     data:{
 
-                        name:this.nameU,
-                        surname:this.surnameU,
-                        identityNumber: this.identityNumberU,
-                        phoneNumber: this.phoneNumberU,
-                        job: this.jobU,
+                        name:document.getElementById('nameU').value,
+                        surname:document.getElementById('surnameU').value,
+                        identityNumber: document.getElementById('identityNumberU').value,
+                        phoneNumber: document.getElementById('phoneNumberU').value,
+                        job: document.getElementById('jobU').value,
                         id: this.updateCustomer.id
 
 
