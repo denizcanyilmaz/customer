@@ -142,7 +142,71 @@
                     <!-- Modal content -->
                     <div class="modal-content">
                         <span class="close">&times;</span>
-                        <p>Some text in the Modal..</p>
+                        <form id="addForm"  method="post">
+
+                            <p v-if="errors.length">
+                                <b>Please correct the following error(s):</b>
+                            <ul>
+                                <li v-for="error in errors">{{ error }}</li>
+                            </ul>
+                            </p>
+
+                            <p>
+                                <label for="name">Name</label>
+                                <input
+                                        id="name"
+                                        v-model="name"
+                                        type="text"
+                                        name="name"
+                                >
+                            </p>
+
+                            <p>
+                                <label for="surname">Surname</label>
+                                <input
+                                        id="surname"
+                                        v-model="surname"
+                                        type="text"
+                                        name="surname"
+                                >
+                            </p>
+
+                            <p>
+                                <label for="identityNumber">Identity Number</label>
+                                <input
+                                        id="identityNumber"
+                                        v-model="identityNumber"
+                                        type="text"
+                                        name="identityNumber"
+                                >
+                            </p>
+                            <p>
+                                <label for="phoneNumber">Phone Number</label>
+                                <input
+                                        id="phoneNumber"
+                                        v-model="phoneNumber"
+                                        type="text"
+                                        name="phoneNumber"
+                                >
+                            </p>
+                            <p>
+                                <label for="job">Job</label>
+                                <input
+                                        id="job"
+                                        v-model="job"
+                                        type="text"
+                                        name="job"
+                                >
+                            </p>
+
+
+                            <p>
+
+                                <input class="u-full-width button-primary" id="btn-add-customer" type="submit" v-on:click="doComment" value="Submit" />
+
+                            </p>
+
+                        </form>
                     </div>
                 </div>
 
@@ -163,7 +227,10 @@
                     <td> {{customer.identityNumber}}</td>
                     <td> {{customer.phoneNumber}}</td>
                     <td> {{customer.job}}</td>
-                    <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                    <td class="text-center">
+                        <a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                        <button v-on:click="deleteComment(customer)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button>
+                    </td>
 
 
                 </tr>
@@ -186,18 +253,65 @@
 <script>
     var app = new Vue({
         el: '#root',
-        data : {customers: []},
+        data : {customers: [],
+            errors: [],
+            name: null,
+            surname: null,
+            identityNumber: null,
+            phoneNumber: null,
+            job: null
+            },
         mounted(){
-            this.fetchPosts();
+            this.fetchCustomers();
         },
         methods: {
-            fetchPosts(){
+            submit(){
+                //if you want to send any data into server before redirection then you can do it here
+                this.$router.push("/addcustomer");
+            },
+            fetchCustomers(){
                 axios.get("/customers").then(function(response){
                     this.customers = response.data;
                 }.bind(this));
             },
+            doComment(){
+
+                axios({
+                    method:'post',
+                    url:'addcustomer',
+                    data:{
+
+                        name:this.name,
+                        surname:this.surname,
+                        identityNumber: this.identityNumber,
+                        phoneNumber: this.phoneNumber,
+                        job: this.job
+
+
+                    }
+                }).then(function(response){
+                    var modal = document.getElementById('addCustomerModal');
+                    modal.style.display = "none";
+                    location.reload();
+                }.bind(this));
+            },
+
+            deleteComment(customer){
+                alert(customer.id);
+                axios.delete(
+
+                    '/deletecustomer/'+ customer.id
+
+                ).then(function(response){
+                    alert("result"+customer.id);
+                    location.reload();
+                }.bind(this));
+            },
+
 
         }
+
+
     });
     // Get the modal
     var modal = document.getElementById('addCustomerModal');
@@ -216,7 +330,9 @@
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
         modal.style.display = "none";
+
     }
+
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
@@ -224,6 +340,7 @@
             modal.style.display = "none";
         }
     }
+
 
 </script>
 </html>

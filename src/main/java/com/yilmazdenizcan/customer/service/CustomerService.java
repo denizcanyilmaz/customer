@@ -20,4 +20,12 @@ public class CustomerService {
     public void insert(Customer customer) {
         customerRepository.save(customer);
     }
+
+    public boolean delete(Long id){
+        customerRepository.deleteById(id);
+        return true;
+    }
+
+    public void update(Long id) {
+    }
 }
