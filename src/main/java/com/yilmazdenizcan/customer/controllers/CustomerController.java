@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
     @GetMapping(value="/customer/{id}")
-    public Optional<Customer> getPostById(@PathVariable Long id){
+    public Optional<Customer> getCustomerById(@PathVariable Long id){
 
         return customerService.getCustomer(id);
     }
