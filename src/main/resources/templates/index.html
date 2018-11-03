@@ -315,6 +315,7 @@
                     this.customers = response.data;
                 }.bind(this));
             },
+
             /*
             *
             * with axios, send Post request to the url for adding
@@ -324,7 +325,7 @@
             * after operation,close customerModal and
             * reload the page to take new changing
             *
-            * */
+            */
             addCustomer(){
                 axios({
                     method:'post',
@@ -345,6 +346,7 @@
                     location.reload();
                 }.bind(this));
             },
+
             /*
             *
             * with axios, send Delete request to the url with id for deleting
@@ -353,7 +355,7 @@
             *
             * after operation, reload the page to take new changing
             *
-            * */
+            */
             deleteCustomer(customer){
 
                 axios.delete(
@@ -364,46 +366,46 @@
 
                 }.bind(this));
             },
-            /*
+
+           /*
            *
            * to use customers old information, this function has customer parameter.
            * with axios, send Get request to the url and take cutomer info,
-           *  it calls CustomerController's
+           * it calls CustomerController's
            * "getCustomerById" method
            *
            * fill input labels with these old information
            *
-           * */
+           */
             openUpdateModal(customer){
 
-                // Get the modal
+                // get the modal
                 var modalUpdate = document.getElementById('customerModal');
+                // set operation flag to false
                 this.operationFlag = "false";
                 axios.get("/customer/" + customer.id).then(function(response){
                     this.updatedCustomer = response.data;
+                    document.getElementById('nameU').value = ""+this.updatedCustomer.name;
+                    document.getElementById('surnameU').value = ""+this.updatedCustomer.surname;
+                    document.getElementById('identityNumberU').value = ""+this.updatedCustomer.identityNumber;
+                    document.getElementById('phoneNumberU').value = ""+this.updatedCustomer.phoneNumber;
+                    document.getElementById('jobU').value = "" +this.updatedCustomer.job;
+                    modalUpdate.style.display = "block";
 
-                }.bind(this);
-                document.getElementById('nameU').value = ""+this.updatedCustomer.name;
-                document.getElementById('surnameU').value = ""+this.updatedCustomer.surname;
-                document.getElementById('identityNumberU').value = ""+this.updatedCustomer.identityNumber;
-                document.getElementById('phoneNumberU').value = ""+this.updatedCustomer.phoneNumber;
-                document.getElementById('jobU').value = "" +this.updatedCustomer.job;
-                modalUpdate.style.display = "block";
-
-            },
-
-            openConfirmModal(customer){
-                // Get the modal
-                axios.get("/customer/" + customer.id).then(function(response){
-                    this.deletedCustomer = response.data;
                 }.bind(this));
-                // Get the modal
-                var modalDelete = document.getElementById('modalConfirmDelete');
-                modalDelete.style.display="block";
             },
 
+            /*
+            *
+            * with axios, send Patch request to the url for update operation
+            * at backend side, it calls CustomerController's
+            * "updateCustomer" method
+            *
+            * after operation,close customerModal and
+            * reload the page to take new changing
+            *
+            */
             updateCustomer(){
-
 
                 axios({
                     method:'patch',
@@ -416,8 +418,6 @@
                         phoneNumber: document.getElementById('phoneNumberU').value,
                         job: document.getElementById('jobU').value,
                         id: this.updatedCustomer.id
-
-
                     }
                 }).then(function(response){
                     var modal = document.getElementById('customerModal');
@@ -425,6 +425,30 @@
                     location.reload();
                 }.bind(this));
             },
+
+            /*
+            *
+            * open confirmation modal to delete
+            * function takes customer information to delete right customer
+            *
+            */
+            openConfirmModal(customer){
+
+                axios.get("/customer/" + customer.id).then(function(response){
+                    this.deletedCustomer = response.data;
+                    var modalDelete = document.getElementById('modalConfirmDelete');
+                    modalDelete.style.display="block";
+
+                }.bind(this));
+
+            },
+
+            /*
+            *
+            * when Cancel button clicked in confirmation modal
+            * modal close and turn the back page
+            *
+            */
             closeDeleteModal(){
                 // Get the modal
                 var modalDelete = document.getElementById('modalConfirmDelete');
@@ -436,11 +460,15 @@
 
 
     });
-
+    /*
+     *
+     * some js codes to close and open modals
+     *
+     */
 
     // Get the modal
     var modalUpdate = document.getElementById('customerModal');
-
+    var modalDelete = document.getElementById('modalConfirmDelete');
 
     // Get the button that opens the modal
     var btnAdd = document.getElementById("addCustomerButton");
@@ -448,16 +476,11 @@
     // Get the <span> element that closes the modal
     var span1 = document.getElementsByClassName("close")[0];
 
-
-
-
     // When the user clicks on the button, open the modal
     btnAdd.onclick = function() {
         modalUpdate.style.display = "block";
         this.operationFlag = "true";
     }
-
-
 
     // When the user clicks on <span> (x), close the modal
     span1.onclick = function() {
@@ -465,13 +488,11 @@
 
     }
 
-
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target == modalUpdate) {
-
+        if (event.target == modalUpdate || event.target == modalDelete) {
             modalUpdate.style.display = "none";
-
+            modalDelete.style.display = "none";
         }
     }
 
