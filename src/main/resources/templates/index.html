@@ -291,6 +291,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
+
+<!--
+
+    With Vue app and axios library
+    send requests to backend side
+    to get response ..
+    Can be add on data variables to use
+    front end side
+-->
 <script>
     var app = new Vue({
         el: '#root',
@@ -316,16 +325,7 @@
                 }.bind(this));
             },
 
-            /*
-            *
-            * with axios, send Post request to the url for adding
-            * at backend side, it calls CustomerController's
-            * "addCustomer" method
-            *
-            * after operation,close customerModal and
-            * reload the page to take new changing
-            *
-            */
+
             addCustomer(){
                 axios({
                     method:'post',
@@ -347,15 +347,6 @@
                 }.bind(this));
             },
 
-            /*
-            *
-            * with axios, send Delete request to the url with id for deleting
-            * at backend side, it calls CustomerController's
-            * "deleteCustomer" method
-            *
-            * after operation, reload the page to take new changing
-            *
-            */
             deleteCustomer(customer){
 
                 axios.delete(
@@ -367,21 +358,9 @@
                 }.bind(this));
             },
 
-           /*
-           *
-           * to use customers old information, this function has customer parameter.
-           * with axios, send Get request to the url and take cutomer info,
-           * it calls CustomerController's
-           * "getCustomerById" method
-           *
-           * fill input labels with these old information
-           *
-           */
             openUpdateModal(customer){
 
-                // get the modal
                 var modalUpdate = document.getElementById('customerModal');
-                // set operation flag to false
                 this.operationFlag = "false";
                 axios.get("/customer/" + customer.id).then(function(response){
                     this.updatedCustomer = response.data;
@@ -395,16 +374,6 @@
                 }.bind(this));
             },
 
-            /*
-            *
-            * with axios, send Patch request to the url for update operation
-            * at backend side, it calls CustomerController's
-            * "updateCustomer" method
-            *
-            * after operation,close customerModal and
-            * reload the page to take new changing
-            *
-            */
             updateCustomer(){
 
                 axios({
@@ -426,12 +395,6 @@
                 }.bind(this));
             },
 
-            /*
-            *
-            * open confirmation modal to delete
-            * function takes customer information to delete right customer
-            *
-            */
             openConfirmModal(customer){
 
                 axios.get("/customer/" + customer.id).then(function(response){
@@ -443,14 +406,7 @@
 
             },
 
-            /*
-            *
-            * when Cancel button clicked in confirmation modal
-            * modal close and turn the back page
-            *
-            */
             closeDeleteModal(){
-                // Get the modal
                 var modalDelete = document.getElementById('modalConfirmDelete');
                 modalDelete.style.display = "none";
             },
@@ -460,11 +416,6 @@
 
 
     });
-    /*
-     *
-     * some js codes to close and open modals
-     *
-     */
 
     // Get the modal
     var modalUpdate = document.getElementById('customerModal');

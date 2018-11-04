@@ -5,11 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
-
+/*
+ * Author: Denizcan Yilmaz,2018 November
+ * Mail: yilmazdenizcan@gmail.com
+ *
+ */
 @Entity
 public class Customer {
-
+    /*
+    *
+    * customer table features, get and set methods
+    * customer class has name,surname,identity number
+    * phone number and job information
+    *
+    */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -19,8 +28,6 @@ public class Customer {
     private String identityNumber;
     private String phoneNumber;
     private String job;
-    private Date startDateCustomer;
-
 
     public Customer() {
     }
@@ -73,11 +80,4 @@ public class Customer {
         this.job = job;
     }
 
-    public Date getStartDateCustomer() {
-        return startDateCustomer;
-    }
-
-    public void setStartDateCustomer(Date startDateCustomer) {
-        this.startDateCustomer = startDateCustomer;
-    }
 }
