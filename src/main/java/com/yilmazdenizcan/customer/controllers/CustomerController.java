@@ -43,7 +43,7 @@ public class CustomerController {
     // calls delete method in service layer
     // delete entity with id from Customer Table
     @DeleteMapping(value = "/deletecustomer/{id}")
-    public void deleteCustomer( @PathVariable Long id){
+    public void deleteCustomer( @PathVariable("id") Long id){
 
         customerService.delete(id);
     }
@@ -59,7 +59,7 @@ public class CustomerController {
     // calls getCustomer method in service layer
     // get customer with the id from Customer Table
     @GetMapping(value="/customer/{id}")
-    public Optional<Customer> getCustomerById(@PathVariable Long id){
+    public Optional<Customer> getCustomerById(@PathVariable("id") Long id){
 
         return customerService.getCustomer(id);
     }

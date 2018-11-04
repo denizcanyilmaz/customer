@@ -2,6 +2,7 @@ package com.yilmazdenizcan.customer.repositories;
 
 import com.yilmazdenizcan.customer.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 /*
  *
@@ -11,4 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+    @Query("SELECT t FROM User t WHERE t.username = ?1 AND t.password = ?2")
+    User findByUsernameAndPassword(String fooIn, String bar);
 }

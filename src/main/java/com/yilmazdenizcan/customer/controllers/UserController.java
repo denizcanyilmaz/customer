@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 /*
  * Author: Denizcan Yilmaz,2018 November
  * Mail: yilmazdenizcan@gmail.com
@@ -23,9 +25,9 @@ public class UserController {
 
     // calls insert method in service layer
     // add the entity to User Table
-    @PostMapping(value = "/add")
-    @ResponseStatus(value= HttpStatus.OK)
+    @PostMapping(value = "add")
     public void addUser(@RequestBody User user){
+
         userService.insert(user);
 
     }
@@ -36,5 +38,17 @@ public class UserController {
     public List<User> users(){
 
         return userService.getAllUsers();
+    }
+
+    @PostMapping(value= "/deleteallusers")
+    public void deleteAllUser(){
+        userService.deleteAll();
+
+    }
+
+    @PostMapping(value="/validateuser")
+    public User validateCustomer(@PathVariable String username, @PathVariable String password ){
+
+        return userService.validateUser(username,password);
     }
 }
