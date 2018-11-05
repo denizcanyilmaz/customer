@@ -90,8 +90,9 @@ public class UserControllerTest {
     // check the http response code
     @Test
     public void testValidateUser() throws Exception{
-        String username = "aaaaaaaaaa";
-        String password = "bbbbbbbbbbb";
+        User user = createUser();
+        String username = user.getUsername();
+        String password = user.getPassword();
 
         mvc.perform(post("/validateuser/{username}/{password}",username,password)
                 .accept(MediaType.APPLICATION_JSON).contentType("application/json;charset=UTF-8"))
