@@ -23,7 +23,7 @@ public class UserController {
 
     // calls insert method in service layer
     // add the entity to User Table
-    @PostMapping(value = "add")
+    @PostMapping(value = "/add")
     public void addUser(@RequestBody User user){
 
         userService.insert(user);
@@ -47,7 +47,7 @@ public class UserController {
 
     // validate user and set its activate status "true"
     @PostMapping(value="/validateuser/{username}/{password}")
-    public User validateCustomer(@PathVariable("username") String username, @PathVariable("password") String password ){
+    public User validateUser(@PathVariable("username") String username, @PathVariable("password") String password ){
 
         User usr = userService.validateUser(username,password);
         System.out.println(usr.isActive());
