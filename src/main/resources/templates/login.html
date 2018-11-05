@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--
+        Author: Denizcan Yilmaz,2018 November
+        Mail: yilmazdenizcan@gmail.com
+    -->
     <meta charset="UTF-8">
     <title>Login/Register</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -10,6 +14,8 @@
             padding-top: 90px;
             background-image: url("https://avatars.mds.yandex.net/get-pdb/872807/870995e1-24c8-4b34-a606-12f2b84bce0d/orig");
         }
+        /* dual login forms style*/
+        /* login form 1 left form, form2 on the right side*/
         .login-container{
             margin-top: 5%;
             margin-bottom: 5%;
@@ -17,14 +23,13 @@
         .login-form-1{
             padding: 5%;
             box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.7), 0 9px 26px 0 rgba(0, 0, 0, 0.9);
-            background-color: #666699;
+            background-color: #b3b3b3;
             opacity: 0.8;
 
         }
-        .login-form-1 h3{
+        .login-form-1 h1{
             text-align: center;
-            color: greenyellow;
-            font-style: oblique;
+            color: #000000;
             opacity: 1;
 
         }
@@ -34,9 +39,9 @@
             box-shadow: 5px 5px 8px 0 rgba(0, 0, 0, 0.7), 0 9px 26px 0 rgba(0, 0, 0, 0.9);
             opacity: 0.8;
         }
-        .login-form-2 h3{
+        .login-form-2 h1{
             text-align: center;
-            color: red;
+            color: whitesmoke;
             opacity: 1;
         }
         .login-container form{
@@ -55,28 +60,27 @@
         .login-form-1 .btnSubmit{
             font-weight: 600;
             color: #fff;
-            background-color: #0062cc;
+            background-color: #000000;
             opacity: 1;
         }
         .login-form-2 .btnSubmit{
             font-weight: 600;
-            color: #0062cc;
+            color: #000000;
             background-color: #fff;
             opacity: 100%;
         }
 
-
     </style>
 </head>
-<body>
 
-<!------ Include the above in your HEAD tag ---------->
+<body>
 
 <div id="root">
     <div class="container login-container">
         <div class="row">
             <div class="col-md-6 login-form-1">
-                <h3>LOGIN</h3>
+                <!-- Login form inputs -->
+                <h1><b>LOGIN</b></h1>
                 <form>
                     <div class="form-group">
                         <input type="text" v-model= "usernameL" class="form-control" placeholder="Username *" value="" />
@@ -84,14 +88,15 @@
                     <div class="form-group">
                         <input type="password" v-model="passwordL" class="form-control" placeholder="Password *" value="" />
                     </div>
+                    <!-- Login form submit button, it calls validateUser function in Vue method -->
                     <div class="form-group">
-                        <input type="submit" @click="validateUser" class="btnSubmit" value="Login" />
+                        <input type="button" @click="validateUser" class="btnSubmit" value="Login" />
                     </div>
                 </form>
             </div>
-
+            <!-- Register form inputs -->
             <div class="col-md-6 login-form-2">
-                <h3>REGISTER</h3>
+                <h1><b>REGISTER</b></h1>
                 <form>
                     <div class="form-group">
                         <input type="text" v-model="usernameR" class="form-control" placeholder="Username *" value="" />
@@ -99,8 +104,9 @@
                     <div class="form-group">
                         <input type="password" v-model= "passwordR" class="form-control" placeholder="Password *" value="" />
                     </div>
+                    <!-- Register form submit button, it calls addUser function in Vue method -->
                     <div class="form-group">
-                        <input type="submit" @click="addUser" class="btnSubmit" value="Register" />
+                        <input type="button" @click="addUser" class="btnSubmit" value="Register" />
                     </div>
                 </form>
             </div>
@@ -109,34 +115,43 @@
 
 </div>
 </body>
+<!-- Scripts are used for design(bootsrap), vue and axios to contact with backend side  -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-
+<!-- Vue methods to manage User statues -->
 <script>
-    var app = new Vue({
 
+    var app1 = new Vue({
         el: '#root',
         data : {
             username: null,
             password: null,
-            isActive: null,
+            active: null,
             users: [],
             flagRegister: 0,
-            validatedUser: null
+            validatedUser: true
         },
+
+        // when page open, get users for addUser method
         mounted(){
             this.fetchUsers();
         },
         methods: {
+            // it takes all users, when page is opening
             fetchUsers(){
                 axios.get("/users").then(function(response){
                     this.users = response.data;
                 }.bind(this));
             },
-            //it takes all customersiwhen page is opening
+
+            // method looks all users username and check validate username
+            // without backend side
+            // after it is ok , there will be an alert modal to login
+            // if it is not, it will alert to try again
+
             addUser(){
                 this.fetchUsers();
                 for (i = 0; i < this.users.length; i++) {
@@ -146,9 +161,6 @@
                         break;
                     }
                 }
-
-                alert("zzz");
-                alert(this.flagRegister);
                 if(this.flagRegister == 0) {
                     axios({
                         method: 'post',
@@ -158,42 +170,45 @@
                             username: this.usernameR,
                             password: this.passwordR
 
-
                         }
                     }).then(function(response){
-                        alert("xxx");
+                        alert("User created PLEASE LOG IN ");
+                        location.reload();
                     }.bind(this));
 
                 }
                 else{
                     alert("This username was previously taken PLEASE TRY AGAIN.... ");
+                    location.reload();
 
                 }
             },
 
+            // to open main page, the method will look users form input is ok.
+            // if it is ok, then open main web page
+            // otherwise, there will be an alert modal to try again
+            // validation operation exist in backend side.
             validateUser(){
+
                 axios({
                     method: 'post',
-                    url: '/validateuser',
-                    data: {
+                    url: '/validateuser/'+ this.usernameL +'/' + this.passwordL
 
-                        username: this.usernameL,
-                        password: this.passwordL
-
-
-                    }
                 }).then(function(response){
                     this.validatedUser = response.data;
-                    alert(this.validatedUser);
+                    if(this.validatedUser.active == false){
+
+                        alert("WRONG USERNAME or PASSWORD...TRY AGAIN...");
+                        location.reload();
+                    }
+                    else{
+                        axios.get("/customersapp");
+                        window.location.href = '/customersapp';
+                    }
                 }.bind(this));
             }
-
         }
-
-
     });
-
-
-
 </script>
+
 </html>

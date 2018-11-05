@@ -29,10 +29,8 @@ public class User {
     private boolean isActive;
 
 
-
     public User() {
     }
-
 
     public Long getId() {
         return id;

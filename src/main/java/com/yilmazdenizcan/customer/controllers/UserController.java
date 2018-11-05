@@ -3,11 +3,9 @@ package com.yilmazdenizcan.customer.controllers;
 import com.yilmazdenizcan.customer.entities.User;
 import com.yilmazdenizcan.customer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /*
  * Author: Denizcan Yilmaz,2018 November
@@ -40,15 +38,22 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    // test for http response
     @PostMapping(value= "/deleteallusers")
     public void deleteAllUser(){
         userService.deleteAll();
 
     }
 
-    @PostMapping(value="/validateuser")
-    public User validateCustomer(@PathVariable String username, @PathVariable String password ){
+    // validate user and set its activate status "true"
+    @PostMapping(value="/validateuser/{username}/{password}")
+    public User validateCustomer(@PathVariable("username") String username, @PathVariable("password") String password ){
 
-        return userService.validateUser(username,password);
+        User usr = userService.validateUser(username,password);
+        System.out.println(usr.isActive());
+        return usr;
     }
+
+
+
 }

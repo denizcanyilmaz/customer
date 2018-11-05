@@ -15,7 +15,7 @@ public class HomeController {
     * page direction controller
     */
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/customersapp")
     public String index(){
         return "index.html";
     }

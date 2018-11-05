@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CustomerService {
     //
     // it uses repository layer transaction functions and connect
-    // repository with controller layer
+    // repository with controller layer.
     // repository layer functions are built on
     //
     @Autowired
@@ -43,7 +43,7 @@ public class CustomerService {
         return true;
     }
 
-    //update entity with new information in customer table
+    // update entity with new information in customer table
     public ResponseEntity<Object> update(Customer customer,Long id) {
 
 

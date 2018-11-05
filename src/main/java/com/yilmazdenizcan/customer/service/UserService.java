@@ -2,7 +2,6 @@ package com.yilmazdenizcan.customer.service;
 
 import com.yilmazdenizcan.customer.entities.User;
 import com.yilmazdenizcan.customer.repositories.UserRepository;
-import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,7 @@ public class UserService {
 
     // validate user for authorization
     public User validateUser(String username, String password) {
+
         User usr= userRepository.findByUsernameAndPassword(username,password);
         if(usr  != null){
             usr.setActive(true);
@@ -44,11 +44,13 @@ public class UserService {
             User usr2= new User();
             return usr2;
         }
-
-
     }
 
+    // to test for http response
     public void deleteAll() {
+
         userRepository.deleteAllInBatch();
     }
+
+
 }

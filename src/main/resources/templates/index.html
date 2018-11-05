@@ -10,7 +10,8 @@
     <!-- bootstrap was used for front end design -->
     <!-- button icons from font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/universal/2-0-1/vendor/font-awesome/css/font-awesome.min.css">
     <style>
         @keyframes bgcolor {
@@ -112,7 +113,6 @@
     </style>
 </head>
 
-
 <body>
 
 <div id="root">
@@ -127,8 +127,8 @@
                     <div class="d-flex justify-content-md-end justify-content-between">
                         <div>
                             <a href="#" data-toggle="modal" data-target="#login-modal" class="logout-btn">
-                                <i class="fa fa-sign-out"></i>
-                                <span class="d-none d-md-inline-block">Sign Out</span>
+                                <i class="fa fa-pencil" style="font-size: small"></i>
+                                <span class="d-none d-md-inline-block" style="font-size: small">Denizcan Yilmaz</span>
                             </a>
                         </div>
                     </div>
@@ -215,11 +215,15 @@
                             <!--operation flag control-->
                             <p v-if="operationFlag">
 
-                                 <button v-on:click="updateCustomer" class="btn btn-primary btn-block button-form"><span class="fa fa-pencil"></span> Update</button>
+                                 <button @click="updateCustomer" class="btn btn-primary btn-block button-form">
+                                     <span class="fa fa-pencil"></span> Update
+                                 </button>
                              </p>
                              <p v-else>
 
-                                 <button v-on:click="addCustomer" class="btn btn-success btn-block button-form"> <b>+</b>Add</button>
+                                 <button @click="addCustomer" class="btn btn-success btn-block button-form">
+                                     <b>+</b>Add
+                                 </button>
                              </p>
 
                         </div>
@@ -237,11 +241,11 @@
                                 Are you sure?
                             </div>
                             <!-- it calls deletecustomer method to delete -->
-                            <button  class="btn btn-danger btn-xs"  v-on:click="deleteCustomer(deletedCustomer)" id="buttonDeleteCustomer">
+                            <button  class="btn btn-danger btn-xs"  @click="deleteCustomer(deletedCustomer)" id="buttonDeleteCustomer">
                                 <span class="fa fa-trash"></span> Delete
                             </button>
                             <!--  cancel button -->
-                            <button class="btn btn-link" v-on:click="closeDeleteModal" id="buttonCancel" >Cancel</button>
+                            <button class="btn btn-link" @click="closeDeleteModal" id="buttonCancel" >Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -265,11 +269,11 @@
                     <td> {{customer.job}}</td>
                     <td class="text-center">
                         <!-- open customer modal for update operation-->
-                        <button v-on:click="openUpdateModal(customer)" class="btn btn-primary btn-xs" style="font-size: x-small;">
+                        <button @click="openUpdateModal(customer)" class="btn btn-primary btn-xs" style="font-size: x-small;">
                             <span class="fa fa-pencil"></span>Edit
                         </button>
                         <!-- open confirmation modal for delete operation-->
-                        <button v-on:click= "openConfirmModal(customer)" id="deleteCustomerButton"  class="btn btn-danger btn-xs">
+                        <button @click= "openConfirmModal(customer)" id="deleteCustomerButton"  class="btn btn-danger btn-xs">
                             <span class="fa fa-trash"></span> Delete
                         </button>
                     </td>
@@ -287,15 +291,18 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://vuejs.org/js/vue.js"></script>
 <script src="/js/script.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 
 <!--
 
     With Vue app and axios library
-    send requests to backend side
+    send requests to backend
     to get response ..
     Can be add on data variables to use
     front end side
@@ -318,14 +325,16 @@
             this.fetchCustomers();
         },
         methods: {
-            //it takes all customersiwhen page is opening
+            // it takes all customers,when page is opening
             fetchCustomers(){
                 axios.get("/customers").then(function(response){
                     this.customers = response.data;
                 }.bind(this));
             },
 
-
+            // add customer to db
+            // close the customer form modal
+            // reload the page to update information
             addCustomer(){
                 axios({
                     method:'post',
@@ -347,6 +356,8 @@
                 }.bind(this));
             },
 
+            // delete customer with specific id from db table
+            // reload the page to update information
             deleteCustomer(customer){
 
                 axios.delete(
@@ -358,6 +369,9 @@
                 }.bind(this));
             },
 
+            // when customer form is opening,
+            // if the operation is edit in customer information,
+            // fill the input place with old info
             openUpdateModal(customer){
 
                 var modalUpdate = document.getElementById('customerModal');
@@ -374,6 +388,9 @@
                 }.bind(this));
             },
 
+            // update customer with new information
+            // close the customer form modal
+            // reload the page to update information
             updateCustomer(){
 
                 axios({
@@ -395,6 +412,8 @@
                 }.bind(this));
             },
 
+            // when user wants to delete element
+            // it opens a confirmation modal
             openConfirmModal(customer){
 
                 axios.get("/customer/" + customer.id).then(function(response){
@@ -406,6 +425,7 @@
 
             },
 
+            // to close confirmation modal
             closeDeleteModal(){
                 var modalDelete = document.getElementById('modalConfirmDelete');
                 modalDelete.style.display = "none";
@@ -417,7 +437,7 @@
 
     });
 
-    // Get the modal
+    // Get the modals
     var modalUpdate = document.getElementById('customerModal');
     var modalDelete = document.getElementById('modalConfirmDelete');
 
