@@ -70,4 +70,4 @@
                 
 <b>19.&emsp;</b>    You can see your customers information and manage them in http://localhost:8081/customersapp         
 
-<h1>20.&emsp;  :point_right: Have a good day </h1>
+<h1>20.&emsp;  :point_right: Please read README2.md file </h1>
